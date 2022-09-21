@@ -1,0 +1,8 @@
+.Tvseries{
+    background-image: url("../image/bg3.png");
+    background-position: center;
+    width: 100%;
+    height: 680px;
+    position: relative;
+    background-size: cover;
+}
