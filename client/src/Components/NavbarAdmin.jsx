@@ -7,12 +7,18 @@ import Navbar from 'react-bootstrap/Navbar';
 import logo from '../icon/logo.png'
 import profil from '../image/profil.png'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CgProfile } from "react-icons/cg";
 import { RiLogoutCircleLine } from "react-icons/ri";
 
 
 function NavbarAdmin() {
+  const Navigate = useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    Navigate('/')
+  }
+
   return (
     <div className='sticky-top d-flex'>
       <Navbar expand="lg" style={{ backgroundColor: "black" }} className="w-100">
@@ -44,7 +50,9 @@ function NavbarAdmin() {
 
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item className="my-2 text-light" >
+                  <Dropdown.Item className="my-2 text-light"
+                  onClick={handleLogout}
+                  >
                     <Link to="/" className='text-light text-decoration-none' >
                       <RiLogoutCircleLine
                         style={{ color: "red", marginRight: "10px" }}

@@ -22,8 +22,6 @@ type handlerFilm struct {
 
 var PathFile = os.Getenv("PATH_FILE")
 
-
-
 func HandlerFilm(FilmRepository repositories.FilmRepository) *handlerFilm {
 	return &handlerFilm{FilmRepository}
 }
@@ -85,6 +83,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		Year:       r.FormValue("year"),
 		CategoryID: category_id,
 		Desc:       r.FormValue("desc"),
+		Link_Film:  r.FormValue("link_film"),
 		Thumbnail:  filename,
 	}
 
@@ -102,6 +101,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		ThumbnailFilm: filename,
 		Year:          request.Year,
 		CategoryID:    request.CategoryID,
+		Link_Film:     request.Link_Film,
 		Desc:          request.Desc,
 	}
 
@@ -198,6 +198,7 @@ func convertResponseFilm(u models.Film) filmsdto.FilmResponse {
 		Category:   u.Category,
 		CategoryID: u.CategoryID,
 		Year:       u.Year,
+		Link_Film:  u.Link_Film,
 		Desc:       u.Desc,
 	}
 }

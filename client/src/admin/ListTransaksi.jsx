@@ -1,8 +1,25 @@
 import React from 'react'
-import { Dropdown, Table, ButtonGroup } from "react-bootstrap";
 import NavbarAdmin from '../Components/NavbarAdmin';
 
+import { Dropdown, Table, ButtonGroup } from "react-bootstrap";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from 'react-query';
+import { UserContext } from '../context/UserContext'
+import { useContext, useState } from 'react'
+import { API } from '../config/api'
+
 function ListTransaksi() {
+
+  const [state] = useContext(UserContext)
+  console.log("state", state)
+  let { data: transactions } = useQuery('transactionsCache', async () => {
+    const response = await API.get('/transactions');
+    console.log("ini response", response)
+    return response.data.data;
+});
+
+
+
   return (
     <>
       <NavbarAdmin />
@@ -27,12 +44,13 @@ function ListTransaksi() {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
+              {transactions?.map((item, id) => {
+                return(<tbody>
                 <tr className="text-light">
-                  <td>1</td>
-                  <td className="text-light">Radif Ganteng</td>
+                  <td>{item.user.id}</td>
+                  <td className="text-light">{item.user.name}</td>
                   <td>bca.jpg</td>
-                  <td className="text-light">26 / Hari</td>
+                  <td className="text-light">2022-5-24 - 2022-6-24 </td>
                   <td>Active</td>
                   <td className="text-light">Approve</td>
                   <td>
@@ -52,6 +70,8 @@ function ListTransaksi() {
                   </td>
                 </tr>
               </tbody>
+              )
+              })}
             </Table>
           </div>
         </div>

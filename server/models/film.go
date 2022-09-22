@@ -7,6 +7,7 @@ type Film struct {
 	Year          string           `json:"year" gorm:"type: varchar(255)"`
 	Category      CategoryResponse `json:"category" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CategoryID    int              `json:"-"`
+	Link_Film     string           `json:"link_film"`
 	Desc          string           `json:"desc" gorm:"type:varchar(255)"`
 }
 
@@ -17,6 +18,7 @@ type FilmResponse struct {
 	Year          string           `json:"year"`
 	Category      CategoryResponse `json:"category" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CategoryID    int              `json:"-"`
+	Link_Film     string           `json:"link_film"`
 	Desc          string           `json:"desc"`
 }
 

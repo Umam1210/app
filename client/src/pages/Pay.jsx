@@ -3,11 +3,11 @@ import { Form, InputGroup, Button } from "react-bootstrap";
 import NavbarUser from '../Components/NavbarUser';
 import icon from '../image/Vector.png'
 
-import {useEffect, useState, useContext, useRef} from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { useQuery, useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
-import {API} from '../config/api'
-import {UserContext} from '../context/UserContext'
+import { API } from '../config/api'
+import { UserContext } from '../context/UserContext'
 
 
 
@@ -48,12 +48,13 @@ function Pay() {
 
   const handleBuy = useMutation(async (e) => {
     e.preventDefault()
+    // return console.log(profile?.id)
     try {
       const data = {
-        userId: profile?.ID,
+        user: profile?.id,
       };
 
-      const body = JSON.stringify(data);
+      // const body = JSON.stringify(data);
 
       const config = {
         method: "POST",
@@ -61,11 +62,12 @@ function Pay() {
           Authorization: "Bearer " + localStorage.token,
           "Content-type": "application/json",
         },
-        body,
+        // body,
       };
 
       // Insert transaction data
-      const response = await API.post("/transaction", config);
+      //langsung mengambil id pada saat post
+      const response = await API.post("/transaction", { user: profile?.id }, config);
       console.log("ini transaction", response);
       const token = response.data.data.token;
 
@@ -73,12 +75,12 @@ function Pay() {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          Navigate("/pay");
+          Navigate("/profile");
         },
         onPending: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          Navigate("/pay");
+          Navigate("/profile");
         },
         onError: function (result) {
           /* You may add your own implementation here */
@@ -149,23 +151,23 @@ function Pay() {
                 </InputGroup.Text>
               </InputGroup>
               <Button variant="danger" size="lg" style={{ marginLeft: "0" }}
-              // onClick={() => onBtnClick()}
-              type="submit"
+                // onClick={() => onBtnClick()}
+                type="submit"
               >
                 Kirim
               </Button>
             </Form>
           </div>
-            <div className="d-flex justify-content-center mt-3">
+          <div className="d-flex justify-content-center mt-3">
             <Button variant="danger" size="lg" className='w-25'
-           type='submit'
-            onClick={(e) => handleBuy.mutate(e)}
-            
-            
+              type='submit'
+              onClick={(e) => handleBuy.mutate(e)}
+
+
             >
-                midtrans
-              </Button>
-            </div>
+              midtrans
+            </Button>
+          </div>
         </div>
       </body>
     </>

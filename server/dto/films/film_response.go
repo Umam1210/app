@@ -9,5 +9,6 @@ type FilmResponse struct {
 	Year       string                  `json:"year" form:"year" validate:"required"`
 	Category   models.CategoryResponse `json:"category"`
 	CategoryID int                     `json:"category_id"`
+	Link_Film  string                  `json:"link_film"`
 	Desc       string                  `json:"desc" form:"desc" validate:"required"`
 }

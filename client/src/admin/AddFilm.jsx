@@ -31,6 +31,7 @@ function AddFilm() {
     image: "",
     year: "",
     desc: "",
+    link_film: "",
     category_id: "",
   });
 
@@ -79,6 +80,7 @@ function AddFilm() {
       );
       formData.set("year", form.year);
       formData.set("desc", form.desc);
+      formData.set("link_film", form.link_film);
       formData.set("category_id", form.category_id);
 
       console.log("form",form);
@@ -188,6 +190,21 @@ let handleSubmit1 = (event) => {
 
                 </select>
               </div>
+              </Form.Group>
+            </div>
+            <div>
+              <Form.Group
+                controlId="formBasicEmail"
+                className="d-flex justify-content-center mx-5 mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  name="link_film"
+                  // value={year}
+                  placeholder="Link film"
+                  onChange={handleChange}
+                 
+                />
               </Form.Group>
             </div>
             <div>

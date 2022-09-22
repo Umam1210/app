@@ -106,8 +106,16 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	// 	return
 	// }
 
+	// StartDate := time.Now()
 	StartDate := time.Now()
+	Year := StartDate.Year()
+	Month := StartDate.Month()
+	Day := StartDate.Day()
 	DueDate := StartDate.AddDate(0, 0, 30)
+
+	fmt.Println(Year)
+	fmt.Println(Day)
+	fmt.Println(Month)
 
 	transaction := models.Transaction{
 		ID:        TransactionId,
@@ -228,9 +236,9 @@ func (h *handlerTransaction) Notification(w http.ResponseWriter, r *http.Request
 func SendMail(status string, transaction models.Transaction) {
 
 	if status != transaction.Status && (status == "success") {
-		var CONFIG_SMTP_HOST = ""
+		var CONFIG_SMTP_HOST = "smpt.gmail.com"
 		var CONFIG_SMTP_PORT = 587
-		var CONFIG_SENDER_NAME = ""
+		var CONFIG_SENDER_NAME = "khairulumam950@gmail.com"
 		var CONFIG_AUTH_EMAIL = os.Getenv("EMAIL_SYSTEM")
 		var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
 
