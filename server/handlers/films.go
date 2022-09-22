@@ -49,7 +49,7 @@ func (h *handlerFilm) GetFilm(w http.ResponseWriter, r *http.Request) {
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 
-	var films models.Film
+	var film models.Film
 
 	film, err := h.FilmRepository.GetFilm(id)
 	if err != nil {
@@ -59,10 +59,10 @@ func (h *handlerFilm) GetFilm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	films.ThumbnailFilm = os.Getenv("PATH_FILE") + films.ThumbnailFilm
+	film.ThumbnailFilm = os.Getenv("PATH_FILE") + film.ThumbnailFilm
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseFilm(film)}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: film}
 	json.NewEncoder(w).Encode(response)
 }
 

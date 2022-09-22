@@ -31,7 +31,7 @@ function CardFilm() {
                     return (
                         <Col className="my-3">
                             <Card>
-                                <Link to="/detail-film-admin">
+                                <Link to={`detail-film-admin/${item.id}`}>
                                     <Card.Img variant="top" src={item.image} /></Link>
                                 <Card.Body>
                                     <Card.Title>{item.title}</Card.Title>

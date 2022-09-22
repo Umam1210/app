@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 import logo from '../icon/logo.png'
 import profil from '../image/profil.png'
 
@@ -35,12 +36,13 @@ function NavbarAdmin() {
                   id="dropdown-menu-align-responsive-1"
                   className="p-0"
                 >
+                 
                   <img src={profil} alt="" />
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="me-4 bg-dark mt-2">
                   <Dropdown.Item className="my-2 text-light" >
-                    <Link to="/list-film">
+                    <Link to="/list-film" className='text-light text-decoration-none'>
                       <CgProfile
                         style={{ color: "red", marginRight: "10px" }}
                         size={30}

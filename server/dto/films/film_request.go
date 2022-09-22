@@ -11,7 +11,7 @@ type CreateFilmRequest struct {
 
 type UpdateFilmRequest struct {
 	Title     string `json:"title" form:"title"`
-	Thumbnail string `json:"thumbnail" form:"thumbnail"`
+	Thumbnail string `json:"image" form:"image"`
 	Year      string `json:"year" form:"year"`
 	Desc      string `json:"desc" form:"desc"`
 }

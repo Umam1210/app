@@ -5,10 +5,21 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import NavbarAdmin from '../Components/NavbarAdmin';
 import {Link} from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from 'react-query';
+import { UserContext } from '../context/UserContext'
+import { useContext } from 'react'
+import { API } from '../config/api'
 
 
 
 function DetailAdmin() {
+    let { id } = useParams();
+    let { data } = useQuery('detailCache', async () => {
+        const response = await API.get('/film/' + id);
+        console.log("ini response", response)
+        return response.data.data;
+    });
   return (
     <>
     <NavbarAdmin />
@@ -24,7 +35,7 @@ function DetailAdmin() {
         <div className="d-flex justify-content-around mt-5">
             <div >
                 <Card >
-                    <Card.Img style={{ width: "300px" }} variant="top" src="https://i.pinimg.com/originals/f8/5d/d4/f85dd4a50454142c80c291ab328fc5c5.jpg" />
+                    <Card.Img style={{ width: "300px" }} variant="top" src={data.image} />
                 </Card>
             </div>
             <div className="bg-dark ">

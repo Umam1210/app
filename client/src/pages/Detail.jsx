@@ -15,11 +15,11 @@ import { API } from '../config/api'
 
 function Detailfilm() {
 
-    const [state] = useContext(UserContext);
+    // const [state] = useContext(UserContext);
     let { id } = useParams();
-    let { data: film } = useQuery('filmCache', async () => {
-        const response = await API.get('/film');
-        console.log("ini response", response)
+    let { data } = useQuery('detailCache', async () => {
+        const response = await API.get('/film/' + id);
+        console.log("ini data", response)
         return response.data.data;
     });
 
@@ -34,24 +34,19 @@ function Detailfilm() {
                 <div className="d-flex justify-content-around mt-5">
                     <div >
                         <Card >
-                            <Card.Img style={{ width: "300px" }} variant="top" src="https://i.pinimg.com/originals/f8/5d/d4/f85dd4a50454142c80c291ab328fc5c5.jpg" />
+                            <Card.Img style={{ width: "300px" }} variant="top" src={data?.image} />
                         </Card>
                     </div>
                     <div className="bg-dark ">
-                        <img
-                            src={image2}
-                            alt=""
-                            className=""
-                            style={{ width: "50%", marginTop: "20px", marginLeft: "100px" }}
-                        />
+                       <h2 className="text-light d-flex justify-content-center">{data?.title}</h2>
                         <div className="mt-5">
                             <p style={{ marginLeft: "100px" }} className="text-light">
-                                2019
+                                {data?.year}
                                 <Button variant="outline-light" className="ms-5">
                                     TV Series
                                 </Button>
                             </p>
-                            <p className="text-light d-flex justify-content-center mt-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, vero aut.</p>
+                            <p className="text-light d-flex justify-content-center mt-5">{data?.desc}</p>
                         </div>
                         <div></div>
                     </div>

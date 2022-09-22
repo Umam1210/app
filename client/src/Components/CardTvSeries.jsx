@@ -31,7 +31,7 @@ function Cardtv() {
                     return (
                         <Col className="my-3" >
                             <Card className="border-dark" style={{backgroundColor:"black"}}>
-                                <Link to="/detail-film">
+                                <Link to={`/detail-film/${item.id}`}>
                                     <Card.Img variant="top" src={item.image} /></Link>
                                 <Card.Body>
                                     <Card.Title className="text-light">{item.title}</Card.Title>

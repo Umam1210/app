@@ -17,6 +17,7 @@ import {UserContext} from './context/UserContext'
 import DetailAdmin from './admin/DetailAdmin';
 import {API, setAuthToken} from './config/api'
 import ModalLogin from './Components/ModalLogin';
+import Cardtv from './Components/CardTvSeries';
 
 
 if (localStorage.token) {
@@ -111,11 +112,12 @@ function App() {
       <Route path='/pay' element={<Pay />}/>
       <Route path='/add-episode' element={<AddEpisode />}/>
       <Route path='/add-film' element={<AddFilm />}/>
-      <Route path='/detail-film' element={<Detailfilm />}/>
       <Route path='/list-film' element={<ListFilmAdmin />}/>
       <Route path='/home' element={<MainMenu />}/>
       <Route path='/list-transaction' element={<ListTransaksi />}/>
-      <Route path='/detail-film-admin' element={<DetailAdmin />}/>
+      <Route path='/detail-film-admin/:id' element={<DetailAdmin />}/>
+      <Route path='/detail-film/:id' element={<Detailfilm />}/>
+      <Route path='/card-tv/:id' element={<Cardtv />}/>
     </Routes>   
     </>
   );
