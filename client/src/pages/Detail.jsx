@@ -13,7 +13,7 @@ import { useContext } from 'react'
 import { API } from '../config/api'
 
 
-function Detailfilm() {
+function DetailfilmAdmin() {
 
     // const [state] = useContext(UserContext);
     let { id } = useParams();
@@ -64,4 +64,4 @@ function Detailfilm() {
     );
 }
 
-export default Detailfilm;
+export default DetailfilmAdmin;

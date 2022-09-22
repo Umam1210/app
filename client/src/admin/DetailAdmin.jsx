@@ -35,24 +35,19 @@ function DetailAdmin() {
         <div className="d-flex justify-content-around mt-5">
             <div >
                 <Card >
-                    <Card.Img style={{ width: "300px" }} variant="top" src={data.image} />
+                    <Card.Img style={{ width: "300px" }} variant="top" src={data?.image} />
                 </Card>
             </div>
             <div className="bg-dark ">
-                <img
-                    src={image2}
-                    alt=""
-                    className=""
-                    style={{ width: "50%", marginTop: "20px", marginLeft: "100px" }}
-                />
+            <h2 className="text-light d-flex justify-content-center">{data?.title}</h2>
                 <div className="mt-5">
                     <p style={{ marginLeft: "100px" }} className="text-light">
-                        2019
+                       {data?.year}
                         <Button variant="outline-light" className="ms-5">
                             TV Series
                         </Button>
                     </p>
-                    <p className="text-light d-flex justify-content-center mt-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas, vero aut.</p>
+                    <p className="text-light d-flex justify-content-center mt-5">{data?.desc}</p>
                 </div>
                 <div></div>
             </div>
