@@ -25,7 +25,9 @@ function NavbarAdmin() {
       <Navbar expand="lg" style={{ backgroundColor: "black" }} className="w-100">
         <Container fluid>
           <div className='p-2 w-100 mx-3' >
+            <Link to="/list-transaction">
             <img src={logo} alt="" />
+            </Link>
           </div>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">

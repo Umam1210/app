@@ -16,7 +16,7 @@ function ListFilmAdmin() {
   return (
     <>
       <NavbarAdmin />
-      <div className="bg-dark pt-5">
+      <div className="pt-5" style={{backgroundColor:"black"}}>
         <div className="flex">
           <div className="d-flex flex-row mb-3">
             <h1 className="text-light mx-5 p-0" style={{ width: "240px" }}>List Film</h1>
@@ -26,20 +26,11 @@ function ListFilmAdmin() {
                   Category
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="bg-dark" variant="dark">
-                  <Dropdown.Item className="text-light" href="#/action-1">
-                    Action
-                  </Dropdown.Item>
                   <Dropdown.Item className="text-light" href="#/action-2">
-                    Drama
-                  </Dropdown.Item>
-                  <Dropdown.Item className="text-light" href="#/action-2">
-                    Comedy
-                  </Dropdown.Item>
-                  <Dropdown.Item className="text-light" href="#/action-2">
-                    Romance
+                    TV Series
                   </Dropdown.Item>
                   <Dropdown.Item className="text-light" href="#/action-3">
-                    Fight
+                    Movies
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

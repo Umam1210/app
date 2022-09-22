@@ -29,7 +29,7 @@ function DetailfilmAdmin() {
             <NavbarUser />
             <div className="flex bg-dark pb-5">
                 <div className="d-flex justify-content-center p-5 bg-dark">
-                    <ReactPlayer url="https://www.youtube.com/watch?v=SKpSpvFCZRw " />
+                    <ReactPlayer url={data?.link_film} />
                 </div>
                 <div className="d-flex justify-content-around mt-5">
                     <div >

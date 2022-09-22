@@ -24,19 +24,19 @@ function CardFilm() {
 
 
     return (
-        <div className="bg-dark">
+        <div className="">
             <h4 className="text-light ms-3 pt-3">TV Series</h4>
-            <Row xs={1} md={6} className="mx-2 bg-dark">
+            <Row xs={1} md={6} className="mx-2">
                 {films?.map((item, id) => {
                     return (
                         <Col className="my-3">
-                            <Card>
+                            <Card  style={{backgroundColor:"black"}} className="text-light border-dark">
                                 <Link to={`detail-film-admin/${item.id}`}>
                                     <Card.Img variant="top" src={item.image} /></Link>
                                 <Card.Body>
                                     <Card.Title>{item.title}</Card.Title>
                                     <Card.Text>
-                                        {item.desc}
+                                        {item.year}
                                     </Card.Text>
                                 </Card.Body>
                             </Card>

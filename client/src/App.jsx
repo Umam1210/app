@@ -117,13 +117,14 @@ function App() {
       <Route path='/list-film' element={<ListFilmAdmin />}/>
       <Route path='/home' element={<MainMenu />}/>
       <Route path='/list-transaction' element={<ListTransaksi />}/>
+      <Route path='/login' element={<ModalLogin />}/>
 
 
       {/*  */}
 
       
       <Route path='/card/:id' element={<CardFilm />}/>
-      <Route path='list-film/detail-film-admin/:id' element={<DetailfilmAdmin />}/>
+      <Route path='list-film/detail-film-admin/:id' element={<DetailAdmin />}/>
 
 
       {/*  */}

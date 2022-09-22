@@ -189,7 +189,7 @@ function ModalRegister() {
               Register
             </Button>
           </Modal.Footer>
-``        </Modal>
+       </Modal>
       </form>
     </>
   );

@@ -63,7 +63,9 @@ function NavbarUser() {
               </Nav.Link>
             </Nav>
             <div className='d-flex ' style={{ width: "60%", paddingLeft: "240px" }}>
+              <Link to="/home">
               <img src={logo} alt="" />
+              </Link>
             </div>
             <div>
               <Dropdown style={{ marginRight: "80px" }}>
