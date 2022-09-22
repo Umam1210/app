@@ -7,7 +7,8 @@ type Transaction struct {
 	StartDate time.Time    `json:"startdate"`
 	DueDate   time.Time    `json:"duedate"`
 	User      UserResponse `json:"user" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	UserID    int          `json:"-"`
+	UserID    int          `json:"user_Id"`
 	Attache   string       `json:"attache"`
 	Status    string       `json:"status"`
+	Price     int          `json:"price"`
 }

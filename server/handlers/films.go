@@ -22,6 +22,8 @@ type handlerFilm struct {
 
 var PathFile = os.Getenv("PATH_FILE")
 
+
+
 func HandlerFilm(FilmRepository repositories.FilmRepository) *handlerFilm {
 	return &handlerFilm{FilmRepository}
 }

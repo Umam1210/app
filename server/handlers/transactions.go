@@ -14,7 +14,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
 	"github.com/midtrans/midtrans-go"
@@ -76,60 +75,77 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
 	userId := int(userInfo["id"].(float64))
 
-	fmt.Println(userId)
-	dataContex := r.Context().Value("dataFile") // add this code
-	filename := dataContex.(string)
-	user, _ := strconv.Atoi(r.FormValue("user"))
+	// fmt.Println(userId)
+	// dataContex := r.Context().Value("dataFile") // add this code
+	// filename := dataContex.(string)
+	// user, _ := strconv.Atoi(r.FormValue("user"))
 
-	request := transactionsdto.CreateTransactionRequest{
-		UserID:  user,
-		Status:  r.FormValue("status"),
-		Attache: filename,
-	}
-
-	//create id unix
-	var TransIdIsMatch = false
-	var TransactionId int
-	for !TransIdIsMatch {
-		TransactionId = userId + rand.Intn(99999) - rand.Intn(111)
-		transactionData, _ := h.TransactionRepository.GetTransaction(TransactionId)
-		if transactionData.ID == 0 {
-			TransIdIsMatch = true
-		}
-	}
-
-	validation := validator.New()
-	err := validation.Struct(request)
-	if err != nil {
+	request := new(transactionsdto.CreateTransactionRequest)
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
 		json.NewEncoder(w).Encode(response)
 		return
 	}
 
+	var TransIdIsMatch = false
+	var TransactionId int
+	for !TransIdIsMatch {
+		TransactionId = userId + rand.Intn(10000) - rand.Intn(100)
+		transactionData, _ := h.TransactionRepository.GetTransaction(TransactionId)
+		if transactionData.ID == 0 {
+			TransIdIsMatch = true
+		}
+	}
+	// validation := validator.New()
+	// err := validation.Struct(request)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+	// 	json.NewEncoder(w).Encode(response)
+	// 	return
+	// }
+
 	StartDate := time.Now()
 	DueDate := StartDate.AddDate(0, 0, 30)
 
 	transaction := models.Transaction{
+		ID:        TransactionId,
 		StartDate: StartDate,
 		DueDate:   DueDate,
-		Attache:   filename,
-		Status:    "Pending",
-		UserID:    request.UserID,
+		// Attache:   filename,
+		Status: "Pending",
+		UserID: request.UserID,
+		Price:  1000000,
 	}
 
-	data, err := h.TransactionRepository.CreateTransaction(transaction)
+	newTransaction, err := h.TransactionRepository.CreateTransaction(transaction)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
 		json.NewEncoder(w).Encode(response)
+		return
 	}
 
-	transaction, _ = h.TransactionRepository.GetTransaction(data.ID)
+	dataTransactions, err := h.TransactionRepository.GetTransaction(newTransaction.ID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
 
-	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseTransaction(transaction)}
-	json.NewEncoder(w).Encode(response)
+	// data, err := h.TransactionRepository.CreateTransaction(transaction)
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
+	// 	json.NewEncoder(w).Encode(response)
+	// }
+
+	// transaction, _ = h.TransactionRepository.GetTransaction(data.ID)
+
+	// w.WriteHeader(http.StatusOK)
+	// response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseTransaction(transaction)}
+	// json.NewEncoder(w).Encode(response)
 
 	// 1. initial snap
 	var s = snap.Client{}
@@ -137,15 +153,15 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	// 2. snap request params
 	req := &snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID: strconv.Itoa(transaction.ID),
-			// GrossAmt: int64(transaction.UserID),
+			OrderID:  strconv.Itoa(dataTransactions.ID),
+			GrossAmt: int64(dataTransactions.Price),
 		},
 		CreditCard: &snap.CreditCardDetails{
 			Secure: true,
 		},
 		CustomerDetail: &midtrans.CustomerDetails{
-			FName: transaction.User.FullName,
-			Email: transaction.User.Email,
+			FName: dataTransactions.User.FullName,
+			Email: dataTransactions.User.Email,
 		},
 	}
 	// execute request
@@ -153,7 +169,7 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	snapResp, _ := s.CreateTransaction(req)
 
 	w.WriteHeader(http.StatusOK)
-	response = dto.SuccessResult{Code: http.StatusOK, Data: snapResp}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: snapResp}
 	json.NewEncoder(w).Encode(response)
 
 	// w.WriteHeader(http.StatusOK)

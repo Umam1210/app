@@ -13,102 +13,111 @@ import {UserContext} from '../context/UserContext'
 
 function Pay() {
 
+  let Navigate = useNavigate();
+  let { data: profile, refetch: profileRefetch } = useQuery(
+    "profileCache",
+    async () => {
+      const config = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
+      const response = await API.get("/check-auth", config);
+      return response.data.data;
+    }
+  );
 
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = "SB-Mid-client-MIX_q2uR1cvTTgPr";
 
-  
-  const [state] = useContext(UserContext);
-let navigate = useNavigate();
-const [previewSrc, setPreviewSrc] = useState(null);
-const [file, setFile] = useState(null);
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
 
-useEffect(() => {
-  //change this to the script source you want to load, for example this is snap.js sandbox env
-  const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
-  //change this according to your client-key
-  const myMidtransClientKey = "Client key here ...";
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
 
-  let scriptTag = document.createElement("script");
-  scriptTag.src = midtransScriptUrl;
-  // optional if you want to set script attribute
-  // for example snap.js have data-client-key attribute
-  scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+  const handleBuy = useMutation(async (e) => {
+    e.preventDefault()
+    try {
+      const data = {
+        userId: profile?.ID,
+      };
 
-  document.body.appendChild(scriptTag);
-  return () => {
-    document.body.removeChild(scriptTag);
-  };
-}, []);
+      const body = JSON.stringify(data);
 
-
-const handleBuy = useMutation(async (e) => {
-  try {
-    e.preventDefault();
-
-    const config = {
-      headers: {
+      const config = {
         method: "POST",
         headers: {
+          Authorization: "Bearer " + localStorage.token,
           "Content-type": "application/json",
         },
-      },
+        body,
+      };
+
+      // Insert transaction data
+      const response = await API.post("/transaction", config);
+      console.log("ini transaction", response);
+      const token = response.data.data.token;
+
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          Navigate("/pay");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          Navigate("/pay");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
+    } catch (error) { }
+  });
+
+  document.title = "Dumbflix";
+
+  const [previewSrc, setPreviewSrc] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const onChangeFiles = (e) => {
+    let fileInfo = e.target.files[0];
+    setFile(fileInfo);
+    let reader = new FileReader();
+
+    if (e.target.files.length === 0) {
+      return;
+    }
+
+    reader.onloadend = (e) => {
+      setPreviewSrc([reader.result]);
     };
 
-    // const data = {
-    //   user_id: state.user.id,
-    // };
-
-    // const body = JSON.stringify(data);
-
-    const response = await API.post("/transaction", config);
-    console.log(response);
-
-    // Create variabel for store token payment from response here ...
-    const token = response.data.data.token;
-
-    // Init Snap for display payment page with token here ...
-    window.snap.pay(token, {
-      onSuccess: function (result) {
-        /* You may add your own implementation here */
-        navigate("/home");
-      },
-      onPending: function (result) {
-        /* You may add your own implementation here */
-        navigate("/pay");
-      },
-      onError: function (result) {
-        /* You may add your own implementation here */
-      },
-      onClose: function () {
-        /* You may add your own implementation here */
-        alert("You closed the popup without finishing the payment");
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-const onChangeFiles = (e) => {
-  let fileInfo = e.target.files[0];
-  setFile(fileInfo);
-  let reader = new FileReader();
-
-  if (e.target.files.length === 0) {
-    return;
-  }
-
-  reader.onloadend = (e) => {
-    setPreviewSrc([reader.result]);
+    reader.readAsDataURL(fileInfo);
   };
 
-  reader.readAsDataURL(fileInfo);
-};
+  const inputFileRef = useRef(null);
 
-const inputFileRef = useRef(null);
-
-const onBtnClick = () => {
-  inputFileRef.current.click();
-};
+  const onBtnClick = () => {
+    inputFileRef.current.click();
+  };
 
 
 
@@ -139,14 +148,18 @@ const onBtnClick = () => {
                   <img src={icon} alt="" />
                 </InputGroup.Text>
               </InputGroup>
-              <Button variant="danger" size="lg" style={{ marginLeft: "0" }}>
+              <Button variant="danger" size="lg" style={{ marginLeft: "0" }}
+              // onClick={() => onBtnClick()}
+              type="submit"
+              >
                 Kirim
               </Button>
             </Form>
           </div>
             <div className="d-flex justify-content-center mt-3">
             <Button variant="danger" size="lg" className='w-25'
-            onClick={() => onBtnClick()}
+           type='submit'
+            onClick={(e) => handleBuy.mutate(e)}
             
             
             >

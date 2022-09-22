@@ -3,11 +3,11 @@ package transactionsdto
 import "time"
 
 type CreateTransactionRequest struct {
-	// StartDate time.Time `json:"startdate" form:"startdate" validate:"required"`
-	// DueDate   time.Time `json:"duedate" form:"duedate" validate:"required"`
-	UserID  int    `json:"user"`
-	Attache string `json:"attache" form:"image" validate:"required"`
-	Status  string `json:"status" form:"status" validate:"required"`
+	StartDate time.Time `json:"startdate"`
+	DueDate   time.Time `json:"duedate"`
+	UserID    int       `json:"user"`
+	Attache   string    `json:"attache" form:"image"`
+	Status    string    `json:"status" form:"status"`
 }
 
 type UpdateTransactionRequest struct {

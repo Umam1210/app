@@ -98,7 +98,9 @@ function NavbarUser() {
 
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item className="my-2 text-light" >
+                  <Dropdown.Item className="my-2 text-light"
+                  onClick={handleLogout}
+                  >
                     <Link to="/" className='text-light text-decoration-none'>
                       <RiLogoutCircleLine
                         style={{ color: "red", marginRight: "10px" }}

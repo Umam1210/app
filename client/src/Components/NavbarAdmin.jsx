@@ -34,7 +34,7 @@ function NavbarAdmin() {
 
                 <Dropdown.Menu className="me-4 bg-dark mt-2">
                   <Dropdown.Item className="my-2 text-light" >
-                    <Link to="/list-film" className='text-light text-decoration-none'>
+                    <Link to="/list-film">
                       <CgProfile
                         style={{ color: "red", marginRight: "10px" }}
                         size={30}
