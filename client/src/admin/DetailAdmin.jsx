@@ -24,8 +24,8 @@ function DetailAdmin() {
     <>
     <NavbarAdmin />
     <div className="flex bg-dark pb-5">
-        <div className="d-flex justify-content-center p-5 bg-dark">
-            <ReactPlayer url={data?.link_film} />
+        <div className="d-flex justify-content-center p-5 bg-dark" style={{height:"100%"}}>
+            <ReactPlayer  url={data?.link_film} />
         </div>
         <div className="d-flex justify-content-end mx-5">
           <Link to='/add-episode'>
@@ -54,7 +54,7 @@ function DetailAdmin() {
             <div >
                 <Card style={{ border: "none" }} className="bg-dark">
                     <Card.Body>
-                        <ReactPlayer className="w-100" url={data?.link_film} />
+                        <ReactPlayer className="w-100" url={data?.link_film} onClickPreview />
                     </Card.Body>
                 </Card>
             </div>

@@ -22,31 +22,13 @@ import Cardtv from './Components/CardTvSeries';
 import DetailfilmAdmin from './pages/Detail';
 import CardFilm from './admin/CardFilm';
 import { MdConnectWithoutContact } from 'react-icons/md';
+import  PrivateRoute  from './private/PrivateRoute';
+
 
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
-
-const PrivateRoute = ({ children, role, user, isLogin, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLogin && role.includes(user) ? (
-          children
-        ) : (
-          <Navigate
-            to={{
-              pathname: '/',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-};
 
 function App(props) {
   
@@ -102,45 +84,97 @@ function App(props) {
     <Routes>
       
       <Route path="/" element={<Home />} />
-      <Route path="/movies" element={<Movie />} />
+      
+      <Route path="/movies" element={
+      <PrivateRoute>
+        <Movie />
+      </PrivateRoute> } 
+      />
+
       <Route path="/tv-series" element={
-      
-          <Tvseries />
-       
-      
+      <PrivateRoute>
+        <Tvseries />
+      </PrivateRoute>
+      } /> 
+
+      <Route path='/profile' element={
+      <PrivateRoute>  
+        <Profile />
+      </PrivateRoute>
       } />
-      <Route path='/profile' element={<Profile />} />
-      <Route path='/pay' element={<Pay />}/>
-      <Route path='/add-episode' element={<AddEpisode />}/>
-      <Route path='/add-film' element={<AddFilm />}/>
-      <Route path='/list-film' element={<ListFilmAdmin />}/>
-      <Route path='/home' element={<MainMenu />}/>
-      <Route path='/list-transaction' element={<ListTransaksi />}/>
-      <Route path='/login' element={<ModalLogin />}/>
+
+      <Route path='/pay' element={
+      <PrivateRoute>
+        <Pay />
+      </PrivateRoute>
+      }/>
+
+      <Route path='/add-episode' element={
+        <PrivateRoute>
+          <AddEpisode />
+        </PrivateRoute>
+      }/>
+
+      <Route path='/add-film' element={
+        <PrivateRoute>
+          <AddFilm />
+        </PrivateRoute>
+      }/>
+
+      <Route path='/list-film' element={
+        <PrivateRoute>
+          <ListFilmAdmin />
+        </PrivateRoute>
+      }/>
+
+      <Route path='/home' element={
+        <PrivateRoute>
+          <MainMenu />
+        </PrivateRoute>
+      }/>
+
+      <Route path='/list-transaction' element={
+          <PrivateRoute>
+            <ListTransaksi />
+          </PrivateRoute>
+      }/>
+
+      {/* <Route path='/login' element={<ModalLogin />}/> */}
 
 
       {/*  */}
 
       
-      <Route path='/card/:id' element={<CardFilm />}/>
-      <Route path='list-film/detail-film-admin/:id' element={<DetailAdmin />}/>
+      <Route path='/card/:id' element={
+      <PrivateRoute>
+        <CardFilm />
+      </PrivateRoute>
+      }
+      />
+      <Route path='list-film/detail-film-admin/:id' element={
+        <PrivateRoute>
+          <DetailAdmin />
+        </PrivateRoute>
+      }/>
 
 
       {/*  */}
 
 
-      <Route path='/detail-film/:id' element={<Detailfilm />}/>
-      <Route path='/card-tv/:id' element={<Cardtv />}/>
+      <Route path='/detail-film/:id' element={
+        <PrivateRoute>
+          <Detailfilm />
+        </PrivateRoute>
+      }/>
+      <Route path='/card-tv/:id' element={
+        <PrivateRoute>
+          <Cardtv />
+        </PrivateRoute>
+        }/>
     </Routes>   
     </>
   );
 }
 
-const mapStateToProps = (state) =>{
-  return{
-  isLogin: state.authReduce.isLogin,
-  user: state.authReduce.user
-}
-}
 
 export default App;
