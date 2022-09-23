@@ -19,7 +19,7 @@ function DetailfilmAdmin() {
     let { id } = useParams();
     let { data } = useQuery('detailCache', async () => {
         const response = await API.get('/film/' + id);
-        console.log("ini data", response)
+        // console.log("ini data", response)
         return response.data.data;
     });
 
@@ -54,7 +54,7 @@ function DetailfilmAdmin() {
                         <Card style={{ border: "none" }} className="bg-dark">
                             <Card.Body>
 
-                                <ReactPlayer className="w-100" url="https://www.youtube.com/watch?v=SKpSpvFCZRw " />
+                                <ReactPlayer className="w-100" url={data?.link_film} />
                             </Card.Body>
                         </Card>
                     </div>

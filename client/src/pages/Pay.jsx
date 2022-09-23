@@ -68,7 +68,7 @@ function Pay() {
       // Insert transaction data
       //langsung mengambil id pada saat post
       const response = await API.post("/transaction", { user: profile?.id }, config);
-      console.log("ini transaction", response);
+      // console.log("ini transaction", response);
       const token = response.data.data.token;
 
       window.snap.pay(token, {
@@ -162,8 +162,6 @@ function Pay() {
             <Button variant="danger" size="lg" className='w-25'
               type='submit'
               onClick={(e) => handleBuy.mutate(e)}
-
-
             >
               midtrans
             </Button>

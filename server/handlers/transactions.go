@@ -238,7 +238,7 @@ func SendMail(status string, transaction models.Transaction) {
 	if status != transaction.Status && (status == "success") {
 		var CONFIG_SMTP_HOST = "smpt.gmail.com"
 		var CONFIG_SMTP_PORT = 587
-		var CONFIG_SENDER_NAME = "khairulumam950@gmail.com"
+		var CONFIG_SENDER_NAME = os.Getenv("EMAIL_SYSTEM")
 		var CONFIG_AUTH_EMAIL = os.Getenv("EMAIL_SYSTEM")
 		var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
 

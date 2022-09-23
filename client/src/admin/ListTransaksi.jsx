@@ -14,7 +14,7 @@ function ListTransaksi() {
   console.log("state", state)
   let { data: transactions } = useQuery('transactionsCache', async () => {
     const response = await API.get('/transactions');
-    console.log("ini response", response)
+    // console.log("ini response", response)
     return response.data.data;
 });
 
@@ -47,7 +47,7 @@ function ListTransaksi() {
               {transactions?.map((item, id) => {
                 return(<tbody>
                 <tr className="text-light">
-                  <td>{item.user.id}</td>
+                  <td>{item.id}</td>
                   <td className="text-light">{item.user.name}</td>
                   <td>bca.jpg</td>
                   <td className="text-light">2022-5-24 - 2022-6-24 </td>

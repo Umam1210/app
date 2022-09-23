@@ -33,7 +33,7 @@ function NavbarLogin() {
   console.log("state", state)
   let { data: films } = useQuery('filmsCache', async () => {
       const response = await API.get('/films');
-      console.log("ini response",response)
+      // console.log("ini response",response)
       return response.data.data;
     });
   return (

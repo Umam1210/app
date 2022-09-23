@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate, Switch, Redirect, useParams } from 'react-router-dom'
+import { Routes, Route, useNavigate, Redirect, useParams, Navigate } from 'react-router-dom'
 import Home from './pages/Home';
 import Tvseries from './pages/Tvseries';
 import Movie from './pages/Movie';
@@ -12,6 +12,7 @@ import ListFilmAdmin from './admin/ListFilm';
 import MainMenu from './pages/MainMenu';
 import ListTransaksi from './admin/ListTransaksi';
 
+import { connect } from 'react-redux';
 import {useContext, useEffect} from 'react'
 import {UserContext} from './context/UserContext'
 import DetailAdmin from './admin/DetailAdmin';
@@ -20,55 +21,47 @@ import ModalLogin from './Components/ModalLogin';
 import Cardtv from './Components/CardTvSeries';
 import DetailfilmAdmin from './pages/Detail';
 import CardFilm from './admin/CardFilm';
+import { MdConnectWithoutContact } from 'react-icons/md';
 
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-// const PrivateRoute = ({ children, role, user, isLogin, ...rest }) => {
-//   return (
-//     <Route
-//       {...rest}
-//       render={({ location }) =>
-//         isLogin && role.includes(user) ? (
-//           children
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: '/',
-//               state: { from: location },
-//             }}
-//           />
-//         )
-//       }
-//     />
-//   );
-// };
+const PrivateRoute = ({ children, role, user, isLogin, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        isLogin && role.includes(user) ? (
+          children
+        ) : (
+          <Navigate
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+};
 
-function App() {
+function App(props) {
+  
+  const {user, isLogin} = props
+
   let navigate = useNavigate();
   let { id } = useParams();
   const [state, dispatch] = useContext(UserContext);
-  // console.clear();
-  console.log(state);
+  console.clear();
+  // console.log(state);
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }  
-    // Redirect Auth
-    // if (state.isLogin === false) {
-    //   navigate('/');
-    // } else {
-    //   if (state.user.role === 'Admin') {
-    //     // useEffect(() => {
-    //     //   if (localStorage.token) {
-    //     //     checkUser();}
-    //     navigate('/list-transaction');
-    //   } else if (state.user.role = 'Customer') {
-    //     navigate('/home');
-    //   }
-    // }
+    
   }, [state]);
 
   const checkUser = async () => {
@@ -107,9 +100,15 @@ function App() {
     <>
   
     <Routes>
+      
       <Route path="/" element={<Home />} />
       <Route path="/movies" element={<Movie />} />
-      <Route path="/tv-series" element={<Tvseries />} />
+      <Route path="/tv-series" element={
+      
+          <Tvseries />
+       
+      
+      } />
       <Route path='/profile' element={<Profile />} />
       <Route path='/pay' element={<Pay />}/>
       <Route path='/add-episode' element={<AddEpisode />}/>
@@ -135,6 +134,13 @@ function App() {
     </Routes>   
     </>
   );
+}
+
+const mapStateToProps = (state) =>{
+  return{
+  isLogin: state.authReduce.isLogin,
+  user: state.authReduce.user
+}
 }
 
 export default App;

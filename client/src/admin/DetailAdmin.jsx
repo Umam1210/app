@@ -17,7 +17,7 @@ function DetailAdmin() {
     let { id } = useParams();
     let { data } = useQuery('detailCache', async () => {
         const response = await API.get('/film/' + id);
-        console.log("ini response", response)
+        // console.log("ini response", response)
         return response.data.data;
     });
   return (

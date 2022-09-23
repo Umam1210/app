@@ -10,21 +10,21 @@ import NavbarLogin from "../Components/Navbar";
 // import Main from "../Components/Main";
 
 // import {Link} from 'react-router-dom'
-import {useContext} from 'react'
-import {UserContext} from '../context/UserContext'
-import {API} from '../config/api'
-import {useQuery} from 'react-query'
+// import {useContext} from 'react'
+// import {UserContext} from '../context/UserContext'
+// import {API} from '../config/api'
+// import {useQuery} from 'react-query'
 
 
 function Home() {
-  const state = useContext (UserContext)
-  console.log("state", state)
-  let { data: films } = useQuery('filmsCache', async () => {
-      const response = await API.get('/films');
-      console.log("ini response",response)
-      return response.data.data;
-    });
-    console.log(films);
+//   const state = useContext (UserContext)
+//   console.log("state", state)
+//   let { data: films } = useQuery('filmsCache', async () => {
+//       const response = await API.get('/films');
+//       console.log("ini response",response)
+//       return response.data.data;
+//     });
+    // console.log(films);
   return (
     <>
       <NavbarLogin />

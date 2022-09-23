@@ -46,7 +46,7 @@ function NavbarUser() {
         <Container fluid>
           <Navbar.Collapse id="navbarScroll">
           
-          <Navbar className='text-danger'>
+          <Navbar className='text-danger ps-4'>
             <Link to="/home" className='text-light text-decoration-none'>Home</Link>
 
           </Navbar>
